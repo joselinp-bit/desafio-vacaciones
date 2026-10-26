@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "nombre": "Lucía Fernández",
+    "area": "Administración",
+    "fechaIngreso": "2023-03-01",
+    "vacacionesTomadas": [
+      { "desde": "2026-01-12", "hasta": "2026-01-25" }
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Martín Gómez",
+    "area": "Operaciones",
+    "fechaIngreso": "2019-08-15",
+    "vacacionesTomadas": [
+      { "desde": "2025-12-22", "hasta": "2026-01-04" },
+      { "desde": "2026-07-13", "hasta": "2026-07-19" }
+    ]
+  },
+  {
+    "id": 3,
+    "nombre": "Sofía Ruiz",
+    "area": "Sistemas",
+    "fechaIngreso": "2014-05-05",
+    "vacacionesTomadas": []
+  },
+  {
+    "id": 4,
+    "nombre": "Diego Pereyra",
+    "area": "Operaciones",
+    "fechaIngreso": "2004-11-01",
+    "vacacionesTomadas": [
+      { "desde": "2026-02-02", "hasta": "2026-02-22" },
+      { "desde": "2026-12-28", "hasta": "2027-01-10" }
+    ]
+  },
+  {
+    "id": 5,
+    "nombre": "Valentina Sosa",
+    "area": "Comercial",
+    "fechaIngreso": "2026-06-01",
+    "vacacionesTomadas": []
+  },
+  {
+    "id": 6,
+    "nombre": "Joaquín Herrera",
+    "area": "Administración",
+    "fechaIngreso": "2021-10-01",
+    "vacacionesTomadas": [
+      { "desde": "2026-03-02", "hasta": "2026-03-08" },
+      { "desde": "2026-04-06", "hasta": "2026-04-12" },
+      { "desde": "2026-09-14", "hasta": "2026-09-20" }
+    ]
+  }
+]
