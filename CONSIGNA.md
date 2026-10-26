@@ -23,6 +23,8 @@ usarla, cambiarla o agregarle lo que necesites.
 
 ### Nivel 1 — lo mínimo
 
+- Que el proyecto corra **localmente**, es decir, en tu propia computadora.
+  Es el primer paso: si lo levantás y ves la página de bienvenida, vas bien.
 - Una página que muestre una tabla con los empleados y, para cada uno: días
   que le corresponden, días usados y días que le quedan.
 - Si todavía no sabés cómo se calculan los días que le corresponden a cada
@@ -43,6 +45,8 @@ usarla, cambiarla o agregarle lo que necesites.
 - Que el ciclo se renueve solo en la fecha que corresponda.
 - Poder ver lo que se tomó cada empleado en ciclos anteriores.
 - Publicar la aplicación en internet para que podamos abrirla con un link.
+  Esto es un extra: aunque la publiques, tiene que seguir corriendo
+  localmente.
 
 Si se te ocurre algo que no está en la lista y te parece útil, adelante.
 
@@ -63,7 +67,10 @@ del desafío.
 Reemplazá el `README.md` actual por uno tuyo que cuente:
 
 1. **Cómo levantar el proyecto**: los pasos para que otra persona lo pueda
-   abrir en su computadora.
+   abrir en su computadora. Vamos a revisar tu entrega siguiendo exactamente
+   estos pasos en una computadora que nunca tuvo el proyecto, así que no te
+   saltees nada (qué hay que instalar, qué comandos correr, qué abrir en el
+   navegador).
 2. **Qué hiciste** y hasta qué nivel llegaste.
 3. **Qué decisiones tomaste y por qué** (por ejemplo, dónde guardás los datos
    y por qué elegiste esa opción).
