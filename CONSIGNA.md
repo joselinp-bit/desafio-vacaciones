@@ -80,13 +80,11 @@ Reemplazá el `README.md` actual por uno tuyo que cuente:
 
 ## Reglas de juego
 
-- **Tiempo:** tenés hasta el _[fecha]_. No le dediques más de _[N]_ horas en
-  total.
 - **IA:** podés usar ChatGPT, Claude o lo que quieras. Lo único: después
   vamos a tener una charla en la que nos vas a explicar lo que hiciste y vas
   a hacer algún cambio chico en vivo, así que asegurate de entender lo que
   entregás.
-- **Pedir ayuda:** si te trabás más de _[N]_ horas con algo, escribinos.
+- **Pedir ayuda:** si te trabás con algo y no lográs avanzar, escribinos.
   Saber cuándo pedir ayuda también cuenta.
 
 ¡Suerte, y que lo disfrutes!
