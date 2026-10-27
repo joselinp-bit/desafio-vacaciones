@@ -65,9 +65,8 @@ async function TablaVacaciones({ searchParams }: Props) {
         Ciclo {anio}: del 1 de enero al 31 de diciembre de {anio}.
       </p>
 
-      <FormularioVacaciones
-        empleados={empleados.map((e) => ({ id: e.id, nombre: e.nombre }))}
-      />
+      <FormularioVacaciones empleados={empleados} />
+    
 
       <div className="mt-6 overflow-x-auto">
         <table className="w-full text-left text-sm">
