@@ -77,3 +77,29 @@ export function diasUsados(empleado: Empleado, anio: number): number {
     0
   );
 }
+// Años con datos para elegir: desde el primer período cargado hasta el último
+// (incluye ciclos futuros si hay vacaciones planificadas), del más reciente al más antiguo.
+export function aniosDisponibles(empleados: Empleado[], anioActual: number): number[] {
+  let primero = anioActual;
+  let ultimo = anioActual;
+  for (const empleado of empleados) {
+    for (const periodo of empleado.vacacionesTomadas) {
+      primero = Math.min(primero, Number(periodo.desde.slice(0, 4)));
+      ultimo = Math.max(ultimo, Number(periodo.hasta.slice(0, 4)));
+    }
+  }
+  const anios: number[] = [];
+  for (let a = ultimo; a >= primero; a--) anios.push(a);
+  return anios;
+}
+
+// Períodos que tocan el año indicado (aunque sea en parte).
+export function periodosDelAnio(empleado: Empleado, anio: number): Periodo[] {
+  return empleado.vacacionesTomadas.filter((p) => diasEnElAnio(p, anio) > 0);
+}
+
+// "2026-01-12" -> "12/01/2026"
+export function formatearFecha(fecha: string): string {
+  const [a, m, d] = fecha.split("-");
+  return `${d}/${m}/${a}`;
+}
