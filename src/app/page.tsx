@@ -45,7 +45,7 @@ async function TablaVacaciones() {
           </thead>
           <tbody>
             {empleados.map((empleado) => {
-              const corresponden = diasCorrespondientes(empleado);
+              const corresponden = diasCorrespondientes(empleado, anio);
               const usados = diasUsados(empleado, anio);
               const restantes = corresponden - usados;
 
