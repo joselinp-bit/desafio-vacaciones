@@ -1,13 +1,8 @@
 import { Suspense } from "react";
 import { connection } from "next/server";
-import empleadosData from "../../data/empleados.json";
-import {
-  type Empleado,
-  diasCorrespondientes,
-  diasUsados,
-} from "../lib/vacaciones";
-
-const empleados = empleadosData as Empleado[];
+import { leerEmpleados } from "../lib/datos";
+import { diasCorrespondientes, diasUsados } from "../lib/vacaciones";
+import FormularioVacaciones from "./FormularioVacaciones";
 
 export default function Home() {
   return (
@@ -24,12 +19,17 @@ export default function Home() {
 async function TablaVacaciones() {
   await connection();
   const anio = new Date().getFullYear();
+  const empleados = await leerEmpleados();
 
   return (
     <>
       <p className="mt-1 text-sm text-gray-400">
         Ciclo actual: del 1 de enero al 31 de diciembre de {anio}.
       </p>
+
+      <FormularioVacaciones
+        empleados={empleados.map((e) => ({ id: e.id, nombre: e.nombre }))}
+      />
 
       <div className="mt-6 overflow-x-auto">
         <table className="w-full text-left text-sm">

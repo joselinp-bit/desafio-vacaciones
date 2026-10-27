@@ -34,3 +34,5 @@ export function diasUsados(empleado: Empleado, anio: number): number {
     0
   );
 }
+// Respuesta del formulario: un mensaje de error o de éxito.
+export type Resultado = { error?: string; ok?: string };
