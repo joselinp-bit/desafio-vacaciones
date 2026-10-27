@@ -41,3 +41,19 @@ export async function agregarVacaciones(
   revalidatePath("/"); // le avisa a Next que la página cambió
   return { ok: `Vacaciones cargadas para ${empleado.nombre}.` };
 }
+export async function eliminarVacaciones(
+  empleadoId: number,
+  desde: string
+): Promise<void> {
+  const empleados = await leerEmpleados();
+  const empleado = empleados.find((e) => e.id === empleadoId);
+  if (!empleado) return;
+
+  // Un empleado no puede tener dos períodos que empiecen el mismo día
+  // (el formulario impide superposiciones), así que "desde" identifica al período.
+  empleado.vacacionesTomadas = empleado.vacacionesTomadas.filter(
+    (p) => p.desde !== desde
+  );
+  await guardarEmpleados(empleados);
+  revalidatePath("/");
+}

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { connection } from "next/server";
 import { leerEmpleados } from "../lib/datos";
+import BotonEliminar from "./BotonEliminar";
 import {
   aniosDisponibles,
   diasCorrespondientes,
@@ -105,11 +106,19 @@ async function TablaVacaciones({ searchParams }: Props) {
                   <td className="py-2 text-gray-300">
                     {periodos.length === 0
                       ? "—"
-                      : periodos.map((p) => (
-                          <div key={p.desde}>
-                            {formatearFecha(p.desde)} al {formatearFecha(p.hasta)}
-                          </div>
-                        ))}
+                      : periodos.map((p) => {
+    const texto = `${formatearFecha(p.desde)} al ${formatearFecha(p.hasta)}`;
+    return (
+      <div key={p.desde} className="flex items-center gap-3">
+        <span>{texto}</span>
+        <BotonEliminar
+          empleadoId={empleado.id}
+          desde={p.desde}
+          descripcion={texto}
+        />
+      </div>
+    );
+  })}
                   </td>
                 </tr>
               );
