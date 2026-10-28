@@ -46,19 +46,22 @@ Para verificar los cálculos hice cuentas a mano y las comparé con la tabla. Po
 
 ## 3. Decisiones y por qué
 
+## 3. Decisiones y por qué
+
 Tomé como ciclo el año calendario, del 1 de enero al 31 de diciembre, porque la ley calcula la antigüedad para las vacaciones al 31 de diciembre de cada año. Cuento los días corridos, incluyendo el primero y el último de cada período. Cuando unas vacaciones cruzan de un año a otro, cada día se descuenta del ciclo al que pertenece.
 
 Para los días que corresponden apliqué el artículo 150 de la ley: 14 días si la antigüedad no supera 5 años, 21 si supera 5, 28 si supera 10 y 35 si supera 20. Para saber si la antigüedad "supera" una cantidad de años, comparo la fecha del aniversario con el 31 de diciembre, en lugar de restar años. Si restara años, Joaquín, que en 2026 tiene 5 años y 3 meses, daría 5 y recibiría 14 días, cuando le corresponden 21.
 
 También apliqué los artículos 151 y 153: si alguien no trabajó al menos la mitad de los días hábiles del año, le corresponde un día por cada 20 trabajados. Para contar los días hábiles tomé de lunes a viernes. La ley indica que los feriados en que la persona normalmente trabajaría cuentan como hábiles, así que no los descuento.
 
-Para guardar los datos seguí usando el mismo archivo `data/empleados.json`, leyéndolo y escribiéndolo desde el servidor. Es la opción más simple: no requiere instalar una base de datos, y cualquiera puede abrir el archivo y ver qué se guardó. El formulario envía los datos a una Server Action (`src/app/acciones.ts`), que antes de guardar valida que estén todos los campos, que la fecha de fin no sea anterior a la de inicio y que el período no se superponga con otro ya cargado.
+Para guardar los datos seguí usando el mismo archivo `data/empleados.json`, leyéndolo y escribiéndolo desde el servidor. Es la opción más simple: no requiere instalar una base de datos, y cualquiera puede abrir el archivo y ver qué se guardó. El formulario envía los datos a una Server Action (`src/app/acciones.ts`), que valida el período antes de guardarlo.
 
 Separé los cálculos en `src/lib/vacaciones.ts`, de modo que la tabla y la vista previa del formulario usan exactamente las mismas funciones y los números siempre coinciden. La página se calcula en cada visita (con `await connection()`), para mostrar siempre la fecha y los datos actuales. El ciclo que se muestra va en la dirección de la página (por ejemplo `/?anio=2025`), así cada ciclo tiene su propio link. En cada ciclo solo aparecen los empleados que ya habían ingresado ese año. En los ciclos futuros, los días que corresponden son una proyección que supone que la persona sigue trabajando todo el año.
 
 En la vista previa, superar los días disponibles muestra un aviso pero no impide guardar, porque en la práctica a veces se adelantan días del ciclo siguiente. Para eliminar un período lo identifico por el empleado y su fecha de inicio, que es única porque no se permiten superposiciones. Si el período cruza de año, se elimina completo.
 
 Las validaciones (campos completos, fechas no invertidas y sin superposiciones) están en una sola función que usan tanto la carga como la edición. Al editar, el período que se modifica no cuenta como superposición consigo mismo.
+
 
 ## 4. Qué no pude resolver y dónde me trabé
 
