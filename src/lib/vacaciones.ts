@@ -43,7 +43,7 @@ export function diasCorrespondientes(empleado: Empleado, anio: number): number {
 
   if (ingreso > finAnio) return 0; // todavía no había ingresado
 
-  // Art. 151: si trabajó menos de la mitad de los días hábiles del año,
+  // Arts. 151 y 153: si trabajó menos de la mitad de los días hábiles del año,
   // le corresponde 1 día por cada 20 trabajados.
   const habilesTrabajados = diasHabiles(Math.max(ingreso, inicioAnio), finAnio);
   const habilesDelAnio = diasHabiles(inicioAnio, finAnio);
