@@ -40,7 +40,7 @@ La página principal muestra una tabla con cada empleado, su área, su fecha de 
 
 Del Nivel 3, los días que corresponden dependen de la antigüedad según la Ley de Contrato de Trabajo. El ciclo se renueva solo cada 1 de enero, y con unos botones se puede ver cualquier ciclo anterior con lo que se tomó cada empleado.
 
-Además agregué tres cosas que no estaban en la consigna y que me parecieron útiles. Se pueden ver los ciclos futuros cuando hay vacaciones planificadas que caen en el año siguiente. Cada período tiene un botón para eliminarlo, con confirmación, por si se cargó mal. Y el formulario muestra, mientras se eligen las fechas, cuántos días son y cuántos le quedarían al empleado en cada ciclo, con un aviso si supera los disponibles.
+Además agregué cuatro cosas que no estaban en la consigna y que me parecieron útiles. Se pueden ver los ciclos futuros cuando hay vacaciones planificadas que caen en el año siguiente. Cada período tiene botones para editar sus fechas o eliminarlo, por si se cargó mal. Y el formulario muestra, mientras se eligen las fechas, cuántos días son y cuántos le quedarían al empleado en cada ciclo, con un aviso si supera los disponibles.
 
 Para verificar los cálculos hice cuentas a mano y las comparé con la tabla. Por ejemplo, a Joaquín, que ingresó el 01/10/2021, le corresponden 14 días en 2025 y 21 en 2026, porque al 31/12/2026 su antigüedad ya supera los 5 años. Las vacaciones de Martín del 22/12/2025 al 04/01/2026 aparecen en los dos ciclos, con 10 días descontados en 2025 y 4 en 2026. Para probar el caso de ingreso tardío, cambié temporalmente el ingreso de Valentina al 01/09/2026, y le correspondieron 4 días: 88 días hábiles trabajados divididos por 20. También probé que el formulario rechace fechas invertidas y períodos superpuestos, y que los datos sigan ahí después de reiniciar el servidor.
 
@@ -58,6 +58,8 @@ Separé los cálculos en `src/lib/vacaciones.ts`, de modo que la tabla y la vist
 
 En la vista previa, superar los días disponibles muestra un aviso pero no impide guardar, porque en la práctica a veces se adelantan días del ciclo siguiente. Para eliminar un período lo identifico por el empleado y su fecha de inicio, que es única porque no se permiten superposiciones. Si el período cruza de año, se elimina completo.
 
+Las validaciones (campos completos, fechas no invertidas y sin superposiciones) están en una sola función que usan tanto la carga como la edición. Al editar, el período que se modifica no cuenta como superposición consigo mismo.
+
 ## 4. Qué no pude resolver y dónde me trabé
 
 No publiqué la aplicación en internet. El servicio más directo para Next.js es Vercel, pero ahí los archivos del proyecto no se pueden modificar, así que el formulario no podría guardar en el JSON. Las alternativas eran publicarla sin poder guardar, sumar una base de datos o usar un servicio con disco persistente. Preferí no agregar esa complejidad y dejar la aplicación funcionando completa en forma local.
@@ -65,8 +67,6 @@ No publiqué la aplicación en internet. El servicio más directo para Next.js e
 Durante el desarrollo me trabé en varios puntos. Al principio confundí *fork* con *clone*: había hecho la copia del repositorio en mi cuenta de GitHub, pero no lo había descargado, y corrí `npm install` fuera de la carpeta del proyecto. El error `ENOENT ... package.json` me hizo dar cuenta de que npm no encontraba el proyecto. También vi que en `cmd` los acentos del JSON aparecían como caracteres raros, y entendí que era un tema de codificación de la terminal y no del archivo, que se soluciona con `chcp 65001`. Más adelante apareció el aviso "Another next dev server is already running": tenía dos servidores abiertos a la vez, uno en el `cmd` y otro en la terminal de VS Code, y lo resolví cerrando uno.
 
 Cuando quise mostrar el año actual con `new Date()`, Next.js me tiró el error "encountered the unstable value new Date() while prerendering". El proyecto tiene activado *Cache Components*, así que Next intenta generar la página por adelantado, pero la fecha cambia en cada visita. De las tres soluciones que propone (cachear el valor, calcularlo en el navegador o calcularlo en cada visita), elegí la última, con `await connection()` dentro de un `<Suspense>`, porque cachearlo habría congelado la tabla y los datos viven en el servidor.
-
-Hay cosas que quedaron sin resolver. No se pueden editar vacaciones ya cargadas: hay que eliminarlas y volver a cargarlas. El cálculo de días hábiles asume que todos trabajan de lunes a viernes, y la aplicación no controla que las vacaciones empiecen un lunes, como indica el artículo 151. Tampoco agregué tests automáticos: los cálculos los verifiqué con cuentas a mano.
 
 ## 5. Fuentes
 
