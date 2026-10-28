@@ -75,9 +75,9 @@ async function TablaVacaciones({ searchParams }: Props) {
               <th className="py-2 pr-4">Empleado</th>
               <th className="py-2 pr-4">Área</th>
               <th className="py-2 pr-4">Ingreso</th>
-              <th className="py-2 pr-4 text-right">Corresponden</th>
-              <th className="py-2 pr-4 text-right">Usados</th>
-              <th className="py-2 pr-4 text-right">Restantes</th>
+              <th className="py-2 pr-4 text-center">Corresponden</th>
+              <th className="py-2 pr-4 text-center">Usados</th>
+              <th className="py-2 pr-4 text-center">Restantes</th>
               <th className="py-2">Períodos tomados</th>
             </tr>
           </thead>
@@ -89,14 +89,14 @@ async function TablaVacaciones({ searchParams }: Props) {
               const periodos = periodosDelAnio(empleado, anio);
 
               return (
-                <tr key={empleado.id} className="border-b border-gray-800 align-top">
+                <tr key={empleado.id} className="border-b border-gray-800 align-middle">
                   <td className="py-2 pr-4">{empleado.nombre}</td>
                   <td className="py-2 pr-4">{empleado.area}</td>
                   <td className="py-2 pr-4">{formatearFecha(empleado.fechaIngreso)}</td>
-                  <td className="py-2 pr-4 text-right">{corresponden}</td>
-                  <td className="py-2 pr-4 text-right">{usados}</td>
+                  <td className="py-2 pr-4 text-center">{corresponden}</td>
+                  <td className="py-2 pr-4 text-center">{usados}</td>
                   <td
-                    className={`py-2 pr-4 text-right font-semibold ${
+                    className={`py-2 pr-4 text-center font-semibold ${
                       restantes < 0 ? "text-red-400" : ""
                     }`}
                   >
