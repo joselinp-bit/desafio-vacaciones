@@ -46,8 +46,6 @@ Para verificar los cálculos hice cuentas a mano y las comparé con la tabla. Po
 
 ## 3. Decisiones y por qué
 
-## 3. Decisiones y por qué
-
 Tomé como ciclo el año calendario, del 1 de enero al 31 de diciembre, porque la ley calcula la antigüedad para las vacaciones al 31 de diciembre de cada año. Cuento los días corridos, incluyendo el primero y el último de cada período. Cuando unas vacaciones cruzan de un año a otro, cada día se descuenta del ciclo al que pertenece.
 
 Para los días que corresponden apliqué el artículo 150 de la ley: 14 días si la antigüedad no supera 5 años, 21 si supera 5, 28 si supera 10 y 35 si supera 20. Para saber si la antigüedad "supera" una cantidad de años, comparo la fecha del aniversario con el 31 de diciembre, en lugar de restar años. Si restara años, Joaquín, que en 2026 tiene 5 años y 3 meses, daría 5 y recibiría 14 días, cuando le corresponden 21.
