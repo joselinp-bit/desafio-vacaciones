@@ -2,7 +2,33 @@
 
 import { revalidatePath } from "next/cache";
 import { leerEmpleados, guardarEmpleados } from "../lib/datos";
-import type { Resultado } from "../lib/vacaciones";
+import type { Empleado, Resultado } from "../lib/vacaciones";
+
+// Validaciones comunes para cargar y editar. Devuelve el mensaje de error,
+// o null si el período es válido. "ignorarDesde" sirve al editar: el período
+// que se está modificando no cuenta como superposición consigo mismo.
+function validarPeriodo(
+  empleado: Empleado,
+  desde: string,
+  hasta: string,
+  ignorarDesde?: string
+): string | null {
+  if (!desde || !hasta) {
+    return "Completá todos los campos.";
+  }
+  // Las fechas "AAAA-MM-DD" se pueden comparar como texto.
+  if (hasta < desde) {
+    return "La fecha de fin no puede ser anterior a la de inicio.";
+  }
+  // Dos períodos se superponen si cada uno empieza antes de que termine el otro.
+  const seSuperpone = empleado.vacacionesTomadas.some(
+    (p) => p.desde !== ignorarDesde && desde <= p.hasta && hasta >= p.desde
+  );
+  if (seSuperpone) {
+    return "Esas fechas se superponen con vacaciones ya cargadas.";
+  }
+  return null;
+}
 
 export async function agregarVacaciones(
   _anterior: Resultado,
@@ -12,13 +38,31 @@ export async function agregarVacaciones(
   const desde = String(formData.get("desde") ?? "");
   const hasta = String(formData.get("hasta") ?? "");
 
-  if (!empleadoId || !desde || !hasta) {
-    return { error: "Completá todos los campos." };
+  const empleados = await leerEmpleados();
+  const empleado = empleados.find((e) => e.id === empleadoId);
+  if (!empleado) {
+    return { error: "Elegí un empleado." };
   }
-  // Las fechas "AAAA-MM-DD" se pueden comparar como texto.
-  if (hasta < desde) {
-    return { error: "La fecha de fin no puede ser anterior a la de inicio." };
-  }
+
+  const error = validarPeriodo(empleado, desde, hasta);
+  if (error) return { error };
+
+  empleado.vacacionesTomadas.push({ desde, hasta });
+  empleado.vacacionesTomadas.sort((a, b) => a.desde.localeCompare(b.desde));
+  await guardarEmpleados(empleados);
+
+  revalidatePath("/");
+  return { ok: `Vacaciones cargadas para ${empleado.nombre}.` };
+}
+
+export async function editarVacaciones(
+  _anterior: Resultado,
+  formData: FormData
+): Promise<Resultado> {
+  const empleadoId = Number(formData.get("empleadoId"));
+  const desdeOriginal = String(formData.get("desdeOriginal") ?? "");
+  const desde = String(formData.get("desde") ?? "");
+  const hasta = String(formData.get("hasta") ?? "");
 
   const empleados = await leerEmpleados();
   const empleado = empleados.find((e) => e.id === empleadoId);
@@ -26,21 +70,23 @@ export async function agregarVacaciones(
     return { error: "No se encontró el empleado." };
   }
 
-  // Dos períodos se superponen si cada uno empieza antes de que termine el otro.
-  const seSuperpone = empleado.vacacionesTomadas.some(
-    (p) => desde <= p.hasta && hasta >= p.desde
-  );
-  if (seSuperpone) {
-    return { error: "Esas fechas se superponen con vacaciones ya cargadas." };
+  const periodo = empleado.vacacionesTomadas.find((p) => p.desde === desdeOriginal);
+  if (!periodo) {
+    return { error: "No se encontró el período a editar." };
   }
 
-  empleado.vacacionesTomadas.push({ desde, hasta });
+  const error = validarPeriodo(empleado, desde, hasta, desdeOriginal);
+  if (error) return { error };
+
+  periodo.desde = desde;
+  periodo.hasta = hasta;
   empleado.vacacionesTomadas.sort((a, b) => a.desde.localeCompare(b.desde));
   await guardarEmpleados(empleados);
 
-  revalidatePath("/"); // le avisa a Next que la página cambió
-  return { ok: `Vacaciones cargadas para ${empleado.nombre}.` };
+  revalidatePath("/");
+  return { ok: "Vacaciones actualizadas." };
 }
+
 export async function eliminarVacaciones(
   empleadoId: number,
   desde: string
